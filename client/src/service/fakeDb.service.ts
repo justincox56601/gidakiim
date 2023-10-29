@@ -1,6 +1,6 @@
 import  axios  from 'axios';
 
-class FakeDbService{
+export class FakeDbService{
 	protected static _singleton: FakeDbService;
 	private readonly _BASEURL = 'http://localhost:3001'; //make this and env variable
 	private _axios;
@@ -26,5 +26,3 @@ class FakeDbService{
 		return cities.data
 	}
 }
-
-export default FakeDbService

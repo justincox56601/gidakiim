@@ -1,7 +1,6 @@
-import  axios  from 'axios';
 import React from 'react';
 import './App.css';
-import FakeDbService from './service/fakeDb.service';
+import {FakeDbService} from './service';
 
 const App = () =>{
 	const db = FakeDbService.getFakeDbService();
@@ -10,7 +9,6 @@ const App = () =>{
 	const dataCallback = async():Promise<void> =>{
 		try {
 			const data = await db.getCities()
-			console.log(data)
 			setData(data)
 		} catch (error) {
 			console.error(error)
