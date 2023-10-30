@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import {FakeDbService} from './service';
+import { DatabaseService } from './service';
 
 const App = () =>{
-	const db = FakeDbService.getFakeDbService();
+	const db = DatabaseService.getDatabaseService();
 	const [data, setData] = React.useState({})
 
 	const dataCallback = async():Promise<void> =>{

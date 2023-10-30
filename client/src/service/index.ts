@@ -1,1 +1,1 @@
-export * from './fakeDb.service';
+export * from './database.service';
