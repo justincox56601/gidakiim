@@ -8,8 +8,8 @@ const App = () =>{
 
 	const dataCallback = async():Promise<void> =>{
 		try {
-			const data = await db.getCities()
-			setData(data)
+			const data = await db.getWeatherData<any>()
+			setData(data.data)
 		} catch (error) {
 			console.error(error)
 		}

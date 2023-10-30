@@ -20,9 +20,26 @@ export class DatabaseService {
 	}
 
 	public async getCities():Promise<Array<string>>{
-		console.log('i was called', process.env.BASE_URL)
 		const cities = await this._axios.get('/cities')
-		console.log(cities)
 		return cities.data
+	}
+
+	public async getWeatherData<TModel>(): Promise<TModel>{
+		const req = {
+			dataSet: ['temperature'].toString(),
+			cities: ['Bemidji', 'Casslake'].toString(),
+			startDate: '2021-04-16 02:45:00',
+			endDate: '2023-08-16 02:45:00'
+		}
+
+		const params = new URLSearchParams();
+		Object.keys(req).forEach(key =>{
+			//@ts-ignore
+			params.append(key, req[key])
+		})
+
+		const response = await this._axios.get('/weather' + '?' + params.toString())
+
+		return response.data
 	}
 }
