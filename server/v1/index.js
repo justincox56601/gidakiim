@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const weatherRoute = require('./weather');
+const weatherRoute = require('./routes/weather');
 
 const router = Router();
 

@@ -4,8 +4,8 @@ const {
 	query,
 	validationResult
 } = require('express-validator');
-const knex = require('../db/knex');
-const UtilityService = require('../service/utilityService');
+const knex = require('../../db/knex');
+const UtilityService = require('../../service/utilityService');
 
 const router = Router();
 
@@ -26,14 +26,30 @@ router.get('/cities', (req, res)=>{
 	}
 })
 
+router.get('/datapoints', (req, res)=>{
+	try {
+		req.knex
+		.column('field_name')
+		.from('object_field')
+		.leftJoin('object', 'fk_object__id', 'object._id')
+		.where('object.name', '=', 'weather')
+		.andWhere('field_type', 'IN', ['decimal'])
+		.then(results =>{
+			return res.status(200).json(req.utilityService.getFormattedResponse(results))
+		})
+	} catch (error) {
+		res.sendStatus(500).json({error: error})
+	}
+})
+
 /**
- * @params - dataSet(Array),
+ * @params - dataPoints(Array),
  * @params - cities(Array)
  * @params - startDate(date),
  * @params - endDate(date),
  */
 router.get('/data', [
-	query('dataSet').notEmpty().escape().customSanitizer((value) =>value.split(',')),
+	query('dataPoints').notEmpty().escape().customSanitizer((value) =>value.split(',')),
 	query('cities').notEmpty().escape().customSanitizer((value) =>value.split(',')),
 	query('startDate').notEmpty(),
 	query('endDate').notEmpty(),
