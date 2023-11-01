@@ -59,11 +59,11 @@ router.get('/data', [
 		return res.status(500).json({errors: errors.array()})
 	}
 
-	const {dataSet, cities, startDate, endDate} = matchedData(req)
+	const {dataPoints, cities, startDate, endDate} = matchedData(req)
 	
 	try{
 		req.knex
-		.column(['_id', '_created_at', 'city', ...dataSet])
+		.column(['_id', '_created_at', 'city', ...dataPoints])
 		.from('weather')
 		.whereIn('city', cities)
 		.andWhere('observed_time', '>=', startDate)
