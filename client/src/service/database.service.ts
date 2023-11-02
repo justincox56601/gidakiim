@@ -7,7 +7,7 @@ export class DatabaseService {
 
 	private constructor(){
 		this._axios = axios.create({
-			baseURL: 'http://localhost:3001'
+			baseURL: 'http://localhost:3001/V1'
 		})
 	}
 
@@ -26,8 +26,8 @@ export class DatabaseService {
 
 	public async getWeatherData<TModel>(): Promise<TModel>{
 		const req = {
-			dataSet: ['temperature'].toString(),
-			cities: ['Bemidji', 'Casslake'].toString(),
+			dataPoints: ['temperature', 'pressure'].toString(),
+			cities: ['Bemidji', 'Cass Lake'].toString(),
 			startDate: '2021-04-16 02:45:00',
 			endDate: '2023-08-16 02:45:00'
 		}
@@ -38,7 +38,7 @@ export class DatabaseService {
 			params.append(key, req[key])
 		})
 
-		const response = await this._axios.get('/weather' + '?' + params.toString())
+		const response = await this._axios.get(`/weather/data?${params.toString()}`);
 
 		return response.data
 	}

@@ -1,30 +1,41 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
 import { DatabaseService } from './service';
 
+import Table from './components/table-component/table';
+const db = DatabaseService.getDatabaseService();
+
 const App = () =>{
-	const db = DatabaseService.getDatabaseService();
-	const [data, setData] = React.useState({})
-
-	const dataCallback = async():Promise<void> =>{
-		try {
-			const data = await db.getWeatherData<any>()
-			setData(data.data)
-		} catch (error) {
-			console.error(error)
-		}
-		
+	const [weatherData, setWeatherData] = useState({} as DatabaseResponseObjectModel)
+	const getWeatherData = async() =>{
+		const data: DatabaseResponseObjectModel = await db.getWeatherData()
+		setWeatherData(data)
 	}
-	
-
-  return (
-    <div className="App">
-      <h1>
-		<button onClick={dataCallback}>CLick Here</button>
-		{JSON.stringify(data)}
-		</h1>
-    </div>
-  );
+	return (
+		<div className="App">
+			<button onClick={getWeatherData}>
+				Click Me
+			</button>
+			<Table
+				weatherData={weatherData}
+			></Table>
+		</div>
+	);
 }
 
 export default App;
+
+interface DatabaseResponseObjectModel<TDataPoint = {}> {
+	meta:{
+		totalNumberOfRecords: number,
+		fields: Array<{name:string, description:string}>,
+		dataCollectionStatement: string
+	},
+	data:Array<DataObjectModel<TDataPoint>>
+}
+
+interface DataObjectModel<TDataPoint ={}> {
+	_id: number,
+	_created_at: string,
+	city: string,
+	TDataPoint: number
+}

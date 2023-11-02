@@ -11,7 +11,7 @@ exports.seed = async function(knex) {
 		_created_at: data.Created_At,
 		city: data.City_Name,
 		observed_time: data.Observed_Time,
-		observed_time_ms : data.Last_Observed_Time,
+		observed_time_unix : data.Last_Observed_Time,
 		temperature: data.Temperature,
 		pressure: data.Pressure,
 		wind_speed: data.Wind_Speed,

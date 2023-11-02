@@ -9,7 +9,7 @@ exports.up = function(knex) {
 	table.dateTime('_modified_at').notNullable().defaultTo(knex.fn.now());
 	table.string('city').notNullable();
 	table.dateTime('observed_time').notNullable();
-	table.integer('observed_time_ms').notNullable();
+	table.integer('observed_time_unix').notNullable();
 	table.decimal('temperature', 5, 2);
 	table.decimal('pressure', 5, 2);
 	table.decimal('wind_speed', 12, 6);
@@ -33,7 +33,7 @@ exports.up = function(knex) {
 	return knex('object_field').insert([
 		{fk_object__id: objectId, field_name: 'city', field_type: 'string', description: 'The city where the measurement was taken'},
 		{fk_object__id: objectId, field_name: 'observed_time', field_type: 'dateTime', description: 'Timestamp of when the measurement was taken'},
-		{fk_object__id: objectId, field_name: 'observed_time_ms', field_type: 'integer', description: 'Millisecond representation of when the measurement was taken'},
+		{fk_object__id: objectId, field_name: 'observed_time_unix', field_type: 'integer', description: 'Unix timestamp representation of when the measurement was taken'},
 		{fk_object__id: objectId, field_name: 'temperature', field_type: 'decimal', description: 'Temperature measured in degrees Celsius'},
 		{fk_object__id: objectId, field_name: 'pressure', field_type: 'decimal', description: 'Atmospheric pressure measured in millibars'},
 		{fk_object__id: objectId, field_name: 'wind_speed', field_type: 'decimal', description: 'Wind speed measured in meters per second'},
