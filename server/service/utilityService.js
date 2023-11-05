@@ -15,7 +15,7 @@ module.exports = {
 					fields:results.map(el => {
 						return {
 							name: el.field_name,
-							description:el.description
+							description: el.description
 						}
 					}),
 					dataCollectionStatement: 'This is a statement of where all the data was collected from.  Will need to be updated to show NOAA sources'
@@ -25,7 +25,5 @@ module.exports = {
 		})
 
 		return 
-
-		
 	}
 }

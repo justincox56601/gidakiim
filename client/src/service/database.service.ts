@@ -7,7 +7,7 @@ export class DatabaseService {
 
 	private constructor(){
 		this._axios = axios.create({
-			baseURL: 'http://localhost:3001/V1'
+			baseURL: 'http://localhost:3001/v1/weather'
 		})
 	}
 

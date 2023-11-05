@@ -18,9 +18,9 @@ router.use((req, res, next)=>{
 
 router.get('/cities', (req, res)=>{
 	try {
-		req.knex.distinct().from('weather').pluck('city').then((data)=>{
-		res.status(200).json(req.utilityService.getFormattedResponse(data))
-	})
+		req.knex.distinct().from('weather').pluck('city')
+		.then((data)=> req.utilityService.getFormattedResponse(req.knex, 'weather', data))
+		.then(resp => res.status(200).json(resp))
 	} catch (error) {
 		res.sendStatus(500).json({error: error})
 	}
@@ -34,9 +34,8 @@ router.get('/datapoints', (req, res)=>{
 		.leftJoin('object', 'fk_object__id', 'object._id')
 		.where('object.name', '=', 'weather')
 		.andWhere('field_type', 'IN', ['decimal'])
-		.then(results =>{
-			return res.status(200).json(req.utilityService.getFormattedResponse(results))
-		})
+		.then(results => req.utilityService.getFormattedResponse(req.knex, 'weather', results))
+		.then(results => res.status(200).json(results))
 	} catch (error) {
 		res.sendStatus(500).json({error: error})
 	}

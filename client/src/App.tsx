@@ -1,23 +1,39 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+import './app.scss';
 import { DatabaseService } from './service';
-
-import Table from './components/table-component/table';
+import {
+	Table,
+	CollapsibleContainer,
+	Container,
+	Menu
+} from './components/';
 const db = DatabaseService.getDatabaseService();
+
+
 
 const App = () =>{
 	const [weatherData, setWeatherData] = useState({} as DatabaseResponseObjectModel)
-	const getWeatherData = async() =>{
-		const data: DatabaseResponseObjectModel = await db.getWeatherData()
-		setWeatherData(data)
+
+	const handleMenuSubmit = (args:any):void =>{
+		console.log(args)
 	}
+
 	return (
 		<div className="App">
-			<button onClick={getWeatherData}>
-				Click Me
-			</button>
-			<Table
-				weatherData={weatherData}
-			></Table>
+			<Container title='Menu'>
+				<Menu
+					databaseService={db}
+					submit={handleMenuSubmit}
+				></Menu>
+			</Container>
+			<CollapsibleContainer title={'Data Graph'}></CollapsibleContainer>
+			<CollapsibleContainer title={'Data Table'}>
+				<Table
+					weatherData={weatherData}
+				></Table>
+			</CollapsibleContainer>
+			
+			
 		</div>
 	);
 }

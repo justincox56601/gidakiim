@@ -3,7 +3,7 @@ import './table.scss';
 interface Props{
 	weatherData: DatabaseResponseObjectModel
 }
-const Table = ({weatherData}:Props) =>{
+export const Table = ({weatherData}:Props) =>{
 	if(Object.keys(weatherData).length === 0){return(<></>)}
 
 	const titleCase = (word:string): string =>{
@@ -47,7 +47,6 @@ const Table = ({weatherData}:Props) =>{
 	)
 }
 
-export default Table
 
 interface DatabaseResponseObjectModel<TDataPoint = {}> {
 	meta:{
