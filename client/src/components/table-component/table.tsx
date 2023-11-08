@@ -48,7 +48,7 @@ export const Table = ({weatherData}:Props) =>{
 }
 
 
-interface DatabaseResponseObjectModel<TDataPoint = {}> {
+export interface DatabaseResponseObjectModel<TDataPoint = {}> {
 	meta:{
 		totalNumberOfRecords: number,
 		fields: Array<{name:string, description:string}>,
@@ -57,7 +57,7 @@ interface DatabaseResponseObjectModel<TDataPoint = {}> {
 	data:Array<DataObjectModel<TDataPoint>>
 }
 
-interface DataObjectModel<TDataPoint ={}> {
+ export interface DataObjectModel<TDataPoint ={}> {
 	_id: number,
 	_created_at: string,
 	city: string,

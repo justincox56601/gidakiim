@@ -10,17 +10,17 @@ exports.up = function(knex) {
 	table.string('city').notNullable();
 	table.dateTime('observed_time').notNullable();
 	table.integer('observed_time_unix').notNullable();
-	table.decimal('temperature', 5, 2);
-	table.decimal('pressure', 5, 2);
-	table.decimal('wind_speed', 12, 6);
-	table.decimal('wind_direction', 5, 2);
+	table.decimal('temperature', 13, 2);
+	table.decimal('pressure', 13, 2);
+	table.decimal('wind_speed', 13, 6);
+	table.decimal('wind_direction', 13, 2);
 	table.string('abbreviated_wind_direction', 3);
-	table.decimal('relative_humidity', 5, 2);
-	table.decimal('cloud_coverage', 5, 2);
-	table.decimal('precipitation', 5, 2);
-	table.decimal('snow', 5, 2);
-	table.decimal('direct_normal_solar_irradiance', 5, 2);
-	table.decimal('solar_radiation', 5, 2);
+	table.decimal('relative_humidity', 13, 2);
+	table.decimal('cloud_coverage', 13, 2);
+	table.decimal('precipitation', 13, 2);
+	table.decimal('snow', 13, 2);
+	table.decimal('direct_normal_solar_irradiance', 13, 2);
+	table.decimal('solar_radiation', 13, 2);
   }).then(()=>{
 	return knex('object').insert({
 		name: 'weather',

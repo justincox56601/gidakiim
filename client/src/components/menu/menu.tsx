@@ -10,8 +10,9 @@
 //might want to pass in a menu service to handle some of this
 //need to make a config that I will pass in and this component will need to be smart enough parse it
 import React, { useState, useEffect } from 'react';
-import { DatabaseService } from "../../service"
-import { FormControl, FormControlType } from "../form-control"
+import { DataRequestModel, DatabaseService } from "../../service"
+import { CheckboxFormControlModel, FormControl, FormControlType } from "../form-control";
+import './menu.scss';
 
 interface Props{
 	databaseService: DatabaseService,
@@ -21,6 +22,10 @@ export const Menu = ({databaseService, submit}:Props) =>{
 	const [cities, setCities] = useState([] as Array<string>);
 	const [dataPoints, setDataPoints] = useState([] as Array<string>);
 
+	const titleCase = (word:string): string =>{
+		return word.split('_').map(el => el.charAt(0).toUpperCase() + el.slice(1)).join(' ')
+	}
+
 	useEffect(()=>{
 		const getCities = async()=>{
 			const cities = await databaseService.getCities()
@@ -29,9 +34,10 @@ export const Menu = ({databaseService, submit}:Props) =>{
 		}
 	
 		const getDatatPoints = async() =>{
-			const dataPoints = await databaseService.getCities() //update this when I get the database service with a method for this
+			const dataPoints = await databaseService.getDataPoints() 
 			//@ts-ignore - I need to update the database service to return an DataResponseModel then I can get rid of this
-			setDataPoints(dataPoints.data)
+			const resp = dataPoints.data.map(dp => titleCase(dp.field_name))
+			setDataPoints(resp)
 		}
 	
 		getCities()
@@ -41,9 +47,9 @@ export const Menu = ({databaseService, submit}:Props) =>{
 	
 	const controls: Array<FormControlType> = [
 		{
-			type: 'select',
-			name: 'citySelectControl',
-			label: 'City Select',
+			type: 'checkboxGroup',
+			name: 'citySelect',
+			label: 'Select Cities',
 			options:[
 				...cities.map(city =>{
 					return {
@@ -52,11 +58,12 @@ export const Menu = ({databaseService, submit}:Props) =>{
 					}
 				})
 			]
+
 		},
 		{
-			type: 'select',
-			name: 'dataPointSelectControl',
-			label: 'Data Point Select',
+			type: 'checkboxGroup',
+			name: 'dataPointSelect',
+			label: 'Select Data Point',
 			options:[
 				...dataPoints.map(dataPoint =>{
 					return {
@@ -75,35 +82,48 @@ export const Menu = ({databaseService, submit}:Props) =>{
 			type: 'date',
 			name: 'endDate',
 			label: 'End Date'
-		}
+		},
+		
 	]
 
-	const handleSubmit = (form: HTMLFormElement):void =>{
-		const resp: {[key:string]:string} = {}
-		for(const control of controls){
-			resp[control.name] = form[control.name].value
+	const getSimpleFormValue = (formControl: { value: any; }) =>{
+		return formControl.value.toLowerCase();
+	}
+
+	//@ts-ignore
+	const getCheckboxGroupValue = (formControl): Array<string> =>{
+		const resp: Array<string> = [];
+		for(const value of formControl){
+			if(value.checked){resp.push(value.value.toLowerCase())}
 		}
+		return resp
+	}
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>):void =>{
+		e.preventDefault()
+		const form: HTMLFormElement | null = e.currentTarget;
+		const resp: DataRequestModel = {
+			cities: getCheckboxGroupValue(form['citySelect']),
+			dataPoints: getCheckboxGroupValue(form['dataPointSelect']),
+			startDate: getSimpleFormValue(form['startDate']),
+			endDate: getSimpleFormValue(form['endDate']),
+		}
+		
 		submit(resp)
 	}
+
+	
 	return(
-		//@ts-ignore
-		<form onSubmit={(e)=>{e.preventDefault(); handleSubmit(e.target)}}>
-			{/* <select name="city" id="city" >
-				<option value="Bemidji">Bemidji</option>
-				<option value="Cass Lake">Cass Lake</option>
-			</select>
-			<select name="DataPoint" id="DataPoint" >
-				<option value="Temperature">Temperature</option>
-				<option value="Pressure">Pressure</option>
-			</select>
-			<input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
-			<input type="date" id="end" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" /> */}
-			{
-				controls.map((control, index) => {
-					return <FormControl control={control} key={index}></FormControl>
-				})
-			}
-			<input type="submit" value="Submit" />
-		</form>
+		<div className="data-menu">
+			<form onSubmit={(e)=>{handleSubmit(e)}}>
+				{
+					controls.map((control, index) => {
+						return <FormControl control={control} key={index}></FormControl>
+					})
+				}
+				<input type="submit" value="Submit" />
+			</form>
+		</div>
+		
 	)
 }

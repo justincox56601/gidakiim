@@ -24,12 +24,17 @@ export class DatabaseService {
 		return cities.data
 	}
 
-	public async getWeatherData<TModel>(): Promise<TModel>{
+	public async getDataPoints():Promise<Array<string>>{
+		const cities = await this._axios.get('/datapoints')
+		return cities.data
+	}
+
+	public async getWeatherData<TModel>(config: DataRequestModel): Promise<TModel>{
 		const req = {
-			dataPoints: ['temperature', 'pressure'].toString(),
-			cities: ['Bemidji', 'Cass Lake'].toString(),
-			startDate: '2021-04-16 02:45:00',
-			endDate: '2023-08-16 02:45:00'
+			dataPoints: config.dataPoints.toString(),
+			cities: config.cities.toString(),
+			startDate: '2021-04-16 02:45:00', //config.startDate - change this end data in database is updated
+			endDate: '2023-08-16 02:45:00', //config.endDate - change this when data in the database is updated
 		}
 
 		const params = new URLSearchParams();
@@ -38,8 +43,15 @@ export class DatabaseService {
 			params.append(key, req[key])
 		})
 
-		const response = await this._axios.get(`/weather/data?${params.toString()}`);
+		const response = await this._axios.get(`/data?${params.toString()}`);
 
 		return response.data
 	}
+}
+
+export interface DataRequestModel{
+	dataPoints: Array<string>;
+	cities: Array<string>;
+	startDate: string;
+	endDate: string;
 }

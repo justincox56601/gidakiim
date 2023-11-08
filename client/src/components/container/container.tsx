@@ -8,6 +8,7 @@ export const Container = ({title, children}:Props) =>{
 	return(
 		<div className='container'>
 			<div className='header'>
+				
 				<h2>{title}</h2>
 			</div>
 			<div >

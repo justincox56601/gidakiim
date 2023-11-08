@@ -62,7 +62,7 @@ router.get('/data', [
 	
 	try{
 		req.knex
-		.column(['_id', '_created_at', 'city', 'observed_time', 'observed_time_unix', ...dataPoints]) //probably need to add observed time to this
+		.column(['_id', '_created_at', 'city', 'observed_time', 'observed_time_unix', ...dataPoints]) 
 		.from('weather')
 		.whereIn('city', cities)
 		.andWhere('observed_time', '>=', startDate)
@@ -77,21 +77,5 @@ router.get('/data', [
 		return res.status(500).json({error: error})
 	}
 });
-
-const _getMeta = (knex, data) => {
-	return {
-		meta:{
-			totalNumberOfRecords: data.length,
-			fields:[
-				{
-					name: 'temperature',
-					desciption: 'this is a description'
-				}
-			],
-			dataCollectionStatement: 'this is a statement of where all the data was collected from'
-		},
-		data: data
-	}
-}
 
 module.exports = router;

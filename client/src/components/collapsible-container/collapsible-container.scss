@@ -1,6 +1,11 @@
 
+$transition-time: 0.4s;
+
 .container{
 	width: 1000px;
+	background-color: white;
+	border-radius: 15px;
+	padding: 1rem;
 	
 	.header{
 		width: 100%;
@@ -19,26 +24,25 @@
 	}
 
 	.collapsible{
-		transform-origin: top center;
-		transition: transform .25s;
+		transition: max-height $transition-time;
 		overflow:hidden;
 	}
 
 	.open{
-		transform: scaleY(1);
+		max-height: 1000px;
 	}
 
 	.closed{
-		transform: scaleY(0);
+		max-height: 0;
 	}
 
 	.arrow-down{
 		transform: rotateZ(0deg);
-		transition: transform .25s;
+		transition: transform $transition-time;
 	}
 
 	.arrow-up{
 		transform: rotateZ(180deg);
-		transition: transform .25s;
+		transition: transform $transition-time;
 	}
 }

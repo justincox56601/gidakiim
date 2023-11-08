@@ -38,18 +38,58 @@ export const FormControl = ({control}:Props) =>{
 		)
 	}
 
+	const getCheckboxControl = (control: CheckboxFormControlModel) =>{
+		return(
+			<div>
+				<input type="checkbox" name={control.name} id={control.name} value={control.value}  defaultChecked={control.checked??false} />
+				<label htmlFor={control.name}>{control.label}</label>
+			</div>
+			
+		)
+	}
+
+	const getCheckboxGroupControl = (control: CheckboxGroupFormControlModel) =>{
+		const options: Array<CheckboxFormControlModel> = control.options.map((option) =>{
+			return {
+				label: option.text,
+				value: option.value,
+				name: control.name,
+				type: 'checkbox'
+			}
+		})
+		return(
+			<div>
+				{control.label}
+				{
+					options.map((option, index) => {
+						return(
+							<div key={index}>
+								{getCheckboxControl(option)}
+							</div>
+						)
+					})
+				}
+			</div>
+		)
+	}
+
 	switch (control.type) {
 		case 'select':
 			return getSelectControl(control as SelectFormControlModel);
 			
 		case 'date':
 			return getDateControl(control as DateFormControlModel)
+		
+		case 'checkbox':
+			return getCheckboxControl(control as CheckboxFormControlModel);
+		case 'checkboxGroup':
+			return getCheckboxGroupControl(control as CheckboxGroupFormControlModel);
 		default:
 			return <></>
 	}
 }
 
-export type FormControlType = FormControlBaseModel | SelectFormControlModel | DateFormControlModel;
+export type FormControlType = FormControlBaseModel | SelectFormControlModel | DateFormControlModel | CheckboxFormControlModel | CheckboxGroupFormControlModel;
 
 export interface FormControlBaseModel{
 	type: string,
@@ -71,4 +111,18 @@ export interface SelectControlOptionModel{
 export interface DateFormControlModel extends FormControlBaseModel{
 	minimum?: string;
 	maximum?: string;
+}
+
+export interface CheckboxFormControlModel extends Omit<FormControlBaseModel, 'value'>{
+	value: string | number;
+	checked?: boolean;
+}
+
+export interface CheckBoxGroupOptionsModel{
+	text: string;
+	value: string | number;
+}
+
+export interface CheckboxGroupFormControlModel extends FormControlBaseModel{
+	options: Array<CheckBoxGroupOptionsModel>
 }

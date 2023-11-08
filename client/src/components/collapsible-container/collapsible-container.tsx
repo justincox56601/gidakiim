@@ -9,7 +9,7 @@ interface Props{
 	children?: ReactNode
 }
 export const CollapsibleContainer = ({title, children}: Props) =>{
-	const [collapsed, setCollapsed] = useState(true)
+	const [collapsed, setCollapsed] = useState(false)
 
 	const collapse = () =>{
 		setCollapsed(!collapsed)

@@ -1,32 +1,40 @@
 import React, { ReactNode, useState } from 'react';
 import './app.scss';
-import { DatabaseService } from './service';
+import { DataRequestModel, DatabaseService } from './service';
 import {
 	Table,
 	CollapsibleContainer,
 	Container,
-	Menu
+	Menu,
+	Graph
 } from './components/';
 const db = DatabaseService.getDatabaseService();
 
 
 
 const App = () =>{
-	const [weatherData, setWeatherData] = useState({} as DatabaseResponseObjectModel)
+	const [weatherData, setWeatherData] = useState({} as DatabaseResponseObjectModel);
+	const [dataRequest, setDataRequest] = useState({} as DataRequestModel);
 
-	const handleMenuSubmit = (args:any):void =>{
-		console.log(args)
+	const handleMenuSubmit = async(dataRequest:DataRequestModel):Promise<void> =>{
+		setWeatherData(await db.getWeatherData(dataRequest))
+		setDataRequest(dataRequest);
 	}
 
 	return (
 		<div className="App">
-			<Container title='Menu'>
+			<CollapsibleContainer title='Menu'>
 				<Menu
 					databaseService={db}
 					submit={handleMenuSubmit}
 				></Menu>
-			</Container>
-			<CollapsibleContainer title={'Data Graph'}></CollapsibleContainer>
+			</CollapsibleContainer>
+			<CollapsibleContainer title={'Data Graph'}>
+				<Graph
+					weatherData={weatherData}
+					dataRequest={dataRequest}
+				></Graph>
+			</CollapsibleContainer>
 			<CollapsibleContainer title={'Data Table'}>
 				<Table
 					weatherData={weatherData}
