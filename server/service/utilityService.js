@@ -1,5 +1,5 @@
 module.exports = {
-	async getFormattedResponse(knex, tableName, data){ 
+	async getFormattedResponse(knex, tableName, data){
 		const fields = Object.keys(data[0])
 
 		return knex

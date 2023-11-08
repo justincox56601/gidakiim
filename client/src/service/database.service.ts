@@ -1,4 +1,5 @@
 import  axios  from 'axios';
+import { DataRequestModel, DatabaseResponseObjectModel } from '../model';
 
 
 export class DatabaseService {
@@ -29,12 +30,12 @@ export class DatabaseService {
 		return cities.data
 	}
 
-	public async getWeatherData<TModel>(config: DataRequestModel): Promise<TModel>{
+	public async getWeatherData<TModel>(config: DataRequestModel): Promise<DatabaseResponseObjectModel>{
 		const req = {
 			dataPoints: config.dataPoints.toString(),
 			cities: config.cities.toString(),
-			startDate: '2021-04-16 02:45:00', //config.startDate - change this end data in database is updated
-			endDate: '2023-08-16 02:45:00', //config.endDate - change this when data in the database is updated
+			startDate: config.startDate, 
+			endDate: config.endDate, 
 		}
 
 		const params = new URLSearchParams();
@@ -42,16 +43,17 @@ export class DatabaseService {
 			//@ts-ignore
 			params.append(key, req[key])
 		})
+		
+		try{
+			const response = await this._axios.get(`/data?${params.toString()}`);
 
-		const response = await this._axios.get(`/data?${params.toString()}`);
+			return response.data
+		}catch(err){
+			console.log(err)
+		}
 
-		return response.data
+		return {} as DatabaseResponseObjectModel
+		
 	}
 }
 
-export interface DataRequestModel{
-	dataPoints: Array<string>;
-	cities: Array<string>;
-	startDate: string;
-	endDate: string;
-}

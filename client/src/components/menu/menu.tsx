@@ -1,16 +1,7 @@
 
-//need to pass in the database service
-// need to use db service to get cities list and data points list
-//need to pass in a callback for once the user submits
-//need to add font awesome icons to users can add rows
-//need to add font awesome icons so users can remove rows
-//need to add font awesome icon so users can pick colors
-//local state will be an array of {city, dataPoint, startDate, endDate, color}
-//will need to transform that into what the callback / database service needs.
-//might want to pass in a menu service to handle some of this
-//need to make a config that I will pass in and this component will need to be smart enough parse it
 import React, { useState, useEffect } from 'react';
-import { DataRequestModel, DatabaseService } from "../../service"
+import { DatabaseService } from "../../service";
+import { DataRequestModel } from '../../model';
 import { CheckboxFormControlModel, FormControl, FormControlType } from "../form-control";
 import './menu.scss';
 
@@ -105,12 +96,14 @@ export const Menu = ({databaseService, submit}:Props) =>{
 		const resp: DataRequestModel = {
 			cities: getCheckboxGroupValue(form['citySelect']),
 			dataPoints: getCheckboxGroupValue(form['dataPointSelect']),
-			startDate: getSimpleFormValue(form['startDate']),
-			endDate: getSimpleFormValue(form['endDate']),
+			startDate: getSimpleFormValue(form['startDate']).replaceAll('/', '-'),
+			endDate: getSimpleFormValue(form['endDate']).replaceAll('/', '-'),
 		}
 		
 		submit(resp)
 	}
+
+	
 
 	
 	return(
@@ -123,7 +116,10 @@ export const Menu = ({databaseService, submit}:Props) =>{
 				}
 				<input type="submit" value="Submit" />
 			</form>
+			
 		</div>
+		
+
 		
 	)
 }

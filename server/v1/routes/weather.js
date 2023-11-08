@@ -59,7 +59,7 @@ router.get('/data', [
 	}
 
 	const {dataPoints, cities, startDate, endDate} = matchedData(req)
-	
+
 	try{
 		req.knex
 		.column(['_id', '_created_at', 'city', 'observed_time', 'observed_time_unix', ...dataPoints]) 
@@ -68,6 +68,7 @@ router.get('/data', [
 		.andWhere('observed_time', '>=', startDate)
 		.andWhere('observed_time', '<=', endDate)
 		.then((results)=>{
+			if(results.length === 0){return {message: 'no results found'}}
 			return req.utilityService.getFormattedResponse(req.knex, 'weather', results)
 		})
 		.then(results =>{

@@ -1,13 +1,15 @@
 import React, { ReactNode, useState } from 'react';
 import './app.scss';
-import { DataRequestModel, DatabaseService } from './service';
+import {  DatabaseService } from './service';
 import {
 	Table,
 	CollapsibleContainer,
-	Container,
 	Menu,
-	Graph
+	Graph,
+	DataGraph,
+	DataTable
 } from './components/';
+import { DatabaseResponseObjectModel, DataRequestModel, } from './model';
 const db = DatabaseService.getDatabaseService();
 
 
@@ -17,29 +19,29 @@ const App = () =>{
 	const [dataRequest, setDataRequest] = useState({} as DataRequestModel);
 
 	const handleMenuSubmit = async(dataRequest:DataRequestModel):Promise<void> =>{
-		setWeatherData(await db.getWeatherData(dataRequest))
+		const data: DatabaseResponseObjectModel = await db.getWeatherData(dataRequest)
+		
+		setWeatherData(data.data != null ? data : {} as DatabaseResponseObjectModel)
 		setDataRequest(dataRequest);
 	}
 
 	return (
 		<div className="App">
-			<CollapsibleContainer title='Menu'>
+			<CollapsibleContainer
+				config={{}}
+			>
 				<Menu
 					databaseService={db}
 					submit={handleMenuSubmit}
 				></Menu>
 			</CollapsibleContainer>
-			<CollapsibleContainer title={'Data Graph'}>
-				<Graph
-					weatherData={weatherData}
-					dataRequest={dataRequest}
-				></Graph>
-			</CollapsibleContainer>
-			<CollapsibleContainer title={'Data Table'}>
-				<Table
-					weatherData={weatherData}
-				></Table>
-			</CollapsibleContainer>
+			<DataGraph
+				weatherData={weatherData}
+				dataRequest={dataRequest}
+			></DataGraph>
+			<DataTable
+				weatherData={weatherData}
+			></DataTable>
 			
 			
 		</div>
@@ -47,19 +49,3 @@ const App = () =>{
 }
 
 export default App;
-
-interface DatabaseResponseObjectModel<TDataPoint = {}> {
-	meta:{
-		totalNumberOfRecords: number,
-		fields: Array<{name:string, description:string}>,
-		dataCollectionStatement: string
-	},
-	data:Array<DataObjectModel<TDataPoint>>
-}
-
-interface DataObjectModel<TDataPoint ={}> {
-	_id: number,
-	_created_at: string,
-	city: string,
-	TDataPoint: number
-}

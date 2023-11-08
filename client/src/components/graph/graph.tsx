@@ -1,7 +1,7 @@
 import React from 'react';
 import { DatabaseResponseObjectModel } from '../table-component';
 import './graph.scss';
-import { DataRequestModel } from '../../service';
+import { DatasetConfigModel, DataRequestModel } from '../../model';
 import {Chart as ChartJS, registerables} from 'chart.js/auto';
 import {Scatter, Chart} from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
@@ -43,36 +43,31 @@ export const Graph = ({weatherData, dataRequest}:Props) =>{
 	
 	
 	return(
-		<Scatter
-			data={data}
-			options={
-				{
-					scales: {
-						x: {
-							type: 'timeseries',        
-							time: {
-							  unit: 'day',
-							  displayFormats: {
-								day: 'MM/dd/yyyy HH:mm'
-							  },
-							  tooltipFormat: 'MM/dd/yyyy HH:mm'
-							},
-							position: 'bottom'
+		<div className="canvas-container">
+			<Scatter
+				data={data}
+				options={
+					{
+						responsive: true,
+						maintainAspectRatio: true,
+						scales: {
+							x: {
+								type: 'timeseries',        
+								time: {
+								unit: 'day',
+								displayFormats: {
+									day: 'MM/dd/yyyy HH:mm'
+								},
+								tooltipFormat: 'MM/dd/yyyy HH:mm'
+								},
+								position: 'bottom'
+							}
 						}
 					}
-				}
-			} 
-		/>
+				} 
+			/>
+		</div>
+		
 	)
 }
 
-interface DatasetConfigModel{
-	label:string, 
-	data:Array<DataConfigModel>, 
-	backgroundColor?:string
-}
-
-interface DataConfigModel{
-	x:number, 
-	y:number
-}
