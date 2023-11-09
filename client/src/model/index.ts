@@ -6,3 +6,5 @@ export * from './data-request.model';
 export * from './container-config.model';
 export * from './collapsible-container-config.model';
 export * from './icon-config.model';
+export * from './table-config.model';
+export * from './graph-config.model';

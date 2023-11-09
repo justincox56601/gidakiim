@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { DatabaseService } from "../../service";
 import { DataRequestModel } from '../../model';
-import { CheckboxFormControlModel, FormControl, FormControlType } from "../form-control";
+import { CheckboxFormControlModel, FormControl, FormControlType } from "../../core-components/form-control";
 import './menu.scss';
 
 interface Props{

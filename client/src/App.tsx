@@ -2,13 +2,13 @@ import React, { ReactNode, useState } from 'react';
 import './app.scss';
 import {  DatabaseService } from './service';
 import {
+	Menu,
+	DataDisplay,
+} from './components';
+import{
 	Table,
 	CollapsibleContainer,
-	Menu,
-	Graph,
-	DataGraph,
-	DataTable
-} from './components/';
+} from './core-components';
 import { DatabaseResponseObjectModel, DataRequestModel, } from './model';
 const db = DatabaseService.getDatabaseService();
 
@@ -24,7 +24,7 @@ const App = () =>{
 		setWeatherData(data.data != null ? data : {} as DatabaseResponseObjectModel)
 		setDataRequest(dataRequest);
 	}
-
+   
 	return (
 		<div className="App">
 			<CollapsibleContainer
@@ -35,15 +35,10 @@ const App = () =>{
 					submit={handleMenuSubmit}
 				></Menu>
 			</CollapsibleContainer>
-			<DataGraph
+			<DataDisplay
 				weatherData={weatherData}
 				dataRequest={dataRequest}
-			></DataGraph>
-			<DataTable
-				weatherData={weatherData}
-			></DataTable>
-			
-			
+			/>
 		</div>
 	);
 }

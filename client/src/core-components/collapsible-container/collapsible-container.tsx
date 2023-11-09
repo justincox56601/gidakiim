@@ -3,7 +3,7 @@ import './collapsible-container.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { CollapsibleContainerConfigModel } from '../../model';
-import { Icon } from '../../core-components';
+import { Icon } from '..';
 
 
 interface Props{
