@@ -1,10 +1,10 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { IconConfigModel } from "./icon-config.model";
+import { ButtonConfigModel, ButtonToggleConfigModel } from "../model";
 
 export interface ContainerConfigModel{
 	title?: string;
 	rightContainerConfig?: {
-		icons?:Array<IconConfigModel>
+		buttons?: Array<ButtonConfigModel>
+		buttonToggle?: ButtonToggleConfigModel;
 	}
 }
 

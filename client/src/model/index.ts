@@ -8,3 +8,5 @@ export * from './collapsible-container-config.model';
 export * from './icon-config.model';
 export * from './table-config.model';
 export * from './graph-config.model';
+export * from './button-config.model';
+export * from './button-toggle-config.model';

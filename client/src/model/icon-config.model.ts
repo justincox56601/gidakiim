@@ -5,4 +5,5 @@ export interface IconConfigModel{
 	onClick?: ()=>void;
 	tooltip?: string;
 	className?: Array<string>;
+	style?: any;
 }

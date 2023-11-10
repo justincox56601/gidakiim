@@ -1,0 +1,23 @@
+@use 'src/_variables' as v;
+
+.container{
+	background-color: white;
+	border-radius: v.$rounded-corners;
+	padding: 1rem;
+	
+	.header{
+		width: 100%;
+		text-transform: capitalize;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+
+		.right-container{
+			display:flex;
+			gap: 0.5rem;
+		}
+	}
+
+	
+}

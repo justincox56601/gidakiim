@@ -1,4 +1,4 @@
-import './form-control.scss';
+import styles from './form-control.module.scss';
 
 
 interface Props{
@@ -9,7 +9,7 @@ export const FormControl = ({control}:Props) =>{
 	const getSelectControl = (control: SelectFormControlModel) => {
 		return(
 			<div>
-				<label htmlFor={control.name}>{control.label}</label>
+				<label className={styles.label} htmlFor={control.name}>{control.label}</label>
 				<select name={control.name} id={control.name}>
 				{
 					control.options.map((option, index) => {
@@ -27,7 +27,7 @@ export const FormControl = ({control}:Props) =>{
 	const getDateControl = (control: DateFormControlModel) =>{
 		return(
 			<div>
-				<label htmlFor={control.name}>{control.label}</label>
+				<label className={styles.label} htmlFor={control.name}>{control.label}</label>
 				<input type="date" 
 					name={control.name} 
 					id={control.name}  
@@ -41,8 +41,8 @@ export const FormControl = ({control}:Props) =>{
 	const getCheckboxControl = (control: CheckboxFormControlModel) =>{
 		return(
 			<div>
-				<input type="checkbox" name={control.name} id={control.name} value={control.value}  defaultChecked={control.checked??false} />
-				<label htmlFor={control.name}>{control.label}</label>
+				<input type="checkbox" name={control.name} id={`${control.name}-${control.label}`} value={control.value}  defaultChecked={control.checked??false} />
+				<label htmlFor={`${control.name}-${control.label}`}>{control.label}</label>
 			</div>
 			
 		)
@@ -58,8 +58,8 @@ export const FormControl = ({control}:Props) =>{
 			}
 		})
 		return(
-			<div>
-				{control.label}
+			<div className={styles.control}>
+				<label className={styles.label} htmlFor={control.name}>{control.label}</label>
 				{
 					options.map((option, index) => {
 						return(

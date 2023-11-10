@@ -1,0 +1,29 @@
+@use 'src/_variables' as v;
+
+.header{
+	background-color: v.$black;
+
+	.title{
+		padding: 1rem 4rem;
+		color: v.$primary-font-color;
+		font-size: 2rem;
+		color: v.$white;
+		//background-color: v.$black;
+		text-align: center;
+	}
+	
+	.img-container{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.img{
+		height: auto;
+		width: 100%;
+		object-fit: cover;
+		
+	}
+}
+

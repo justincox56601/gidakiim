@@ -20,6 +20,7 @@ export const Icon = ({config}:Props) =>{
 			onClick={()=>clickHandler()} 
 			className={config.className?.join(' ')} 
 			title={config.tooltip}
+			style={config.style}
 		/>
 	)
 }

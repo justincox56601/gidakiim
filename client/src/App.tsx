@@ -4,6 +4,7 @@ import {  DatabaseService } from './service';
 import {
 	Menu,
 	DataDisplay,
+	Header
 } from './components';
 import{
 	Table,
@@ -26,20 +27,26 @@ const App = () =>{
 	}
    
 	return (
-		<div className="App">
-			<CollapsibleContainer
-				config={{}}
-			>
-				<Menu
-					databaseService={db}
-					submit={handleMenuSubmit}
-				></Menu>
-			</CollapsibleContainer>
-			<DataDisplay
-				weatherData={weatherData}
-				dataRequest={dataRequest}
-			/>
+		<div>
+			<Header></Header>
+			<div className="App">
+				<CollapsibleContainer
+					config={{
+						title: 'Data Select'
+					}}
+				>
+					<Menu
+						databaseService={db}
+						submit={handleMenuSubmit}
+					></Menu>
+				</CollapsibleContainer>
+				<DataDisplay
+					weatherData={weatherData}
+					dataRequest={dataRequest}
+				/>
+			</div>
 		</div>
+		
 	);
 }
 

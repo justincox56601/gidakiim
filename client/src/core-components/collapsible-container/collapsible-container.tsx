@@ -1,9 +1,9 @@
 import React, { ReactNode, useState } from 'react';
-import './collapsible-container.scss';
+import styles from './collapsible-container.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { CollapsibleContainerConfigModel } from '../../model';
-import { Icon } from '..';
+import { Icon, Button } from '..';
 
 
 interface Props{
@@ -18,30 +18,25 @@ export const CollapsibleContainer = ({config, children}: Props) =>{
 	}
 
 	return(
-		<div className='container'>
-			<div className='header'>
+		<div className={styles.container}>
+			<div className={styles.header}>
 				<h2>{config.title}</h2>
 				<div>
 					{
-						(config.rightContainerConfig?.icons??[]).map((icon, index)=>{
-							return(
-								<Icon
-									key={index} 
-									config={icon}
-								></Icon>
-							)
-						})
+						(config.rightContainerConfig?.buttons?.map((button, index)=>{
+							return <Button key={index} config={button}/>
+					}))
 					}
 					<Icon
 						config={{
 							icon: faAngleDown,
 							onClick: collapse,
-							className:collapsed===true? ['arrow-down']: ['arrow-up']
+							className:collapsed===true? [styles['arrow-down']]: [styles['arrow-up']]
 						}}
 					></Icon>
 				</div>
 			</div>
-			<div className={`collapsible ${collapsed === true ? 'closed':'open'}`} style={{overflowY: config.overflowY ?? 'hidden'}}> 
+			<div className={`${styles.collapsible} ${(collapsed === true ? styles.closed :styles.open)}`} style={{overflowY: config.overflowY ?? 'hidden'}}> 
 				 {children}
 			</div>
 			

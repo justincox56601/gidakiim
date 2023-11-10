@@ -1,0 +1,25 @@
+@use 'src/_variables' as v;
+$cell-padding: 10px 5px;
+
+.table{
+	width: 100%;
+	border-collapse: collapse;
+	//border: 1px solid v.$accent-color-1;
+
+	th{
+		background-color: v.$white;
+		//color: white;
+		text-align: left;
+		padding: $cell-padding;
+	}
+
+	tr{		
+		&:nth-child(odd){
+			background-color: v.$accent-color-2;
+		}
+	}
+
+	td{
+		padding: $cell-padding;
+	}
+}

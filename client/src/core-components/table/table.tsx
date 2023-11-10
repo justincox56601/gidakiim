@@ -1,5 +1,5 @@
 import { DataObjectModel, TableConfigModel } from '../../model';
-import './table.scss';
+import styles from './table.module.scss';
 
 
 interface Props{
@@ -10,8 +10,8 @@ export const Table = ({config}:Props) =>{
 	
 
 	return(
-		<div className='table-container'>
-			<table className='table'>
+		<div className={styles['table-container']}>
+			<table className={styles.table}>
 				<thead>
 					<tr>
 						{config.headers.map((el, index) => <th key={index}>{el}</th>)}

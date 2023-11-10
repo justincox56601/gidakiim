@@ -1,0 +1,35 @@
+@use 'src/_variables' as v;
+
+.toggle{
+	display:flex;
+	border: 1px solid v.$accent-color-1;
+	border-radius: v.$button-corners;
+	
+
+	.active{
+		background-color: v.$accent-color-1;
+
+		&  svg *{
+			color:v.$white;
+		}
+		
+	}
+
+	& > :hover{
+		background-color: v.$accent-color-1;
+	}
+
+	& :first-child{
+		border-top-left-radius: v.$button-corners;
+		border-bottom-left-radius: v.$button-corners;
+	}
+
+	& :last-child{
+		border-top-right-radius: v.$button-corners;
+		border-bottom-right-radius: v.$button-corners;
+	}
+
+	button{
+		border: none;
+	}
+}

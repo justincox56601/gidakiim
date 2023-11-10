@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { DatabaseService } from "../../service";
-import { DataRequestModel } from '../../model';
+import { ButtonConfigModel, DataRequestModel, GraphConfigModel } from '../../model';
 import { CheckboxFormControlModel, FormControl, FormControlType } from "../../core-components/form-control";
-import './menu.scss';
+import styles from './menu.module.scss';
+import { Button } from '../../core-components';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 interface Props{
 	databaseService: DatabaseService,
@@ -104,17 +106,24 @@ export const Menu = ({databaseService, submit}:Props) =>{
 	}
 
 	
-
+	const submitConfig: ButtonConfigModel = {
+		type: 'submit',
+		name: 'submit',
+		content:{
+			text: 'Submit',
+		}
+		
+	}
 	
 	return(
-		<div className="data-menu">
+		<div className={styles['data-menu']}>
 			<form onSubmit={(e)=>{handleSubmit(e)}}>
 				{
 					controls.map((control, index) => {
 						return <FormControl control={control} key={index}></FormControl>
 					})
 				}
-				<input type="submit" value="Submit" />
+				<Button config={submitConfig}/>
 			</form>
 			
 		</div>

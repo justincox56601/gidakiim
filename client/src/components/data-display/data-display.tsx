@@ -1,8 +1,18 @@
 import { faChartLine, faFileArrowDown, faTableList } from '@fortawesome/free-solid-svg-icons';
 import { Container, Graph, Table } from '../../core-components';
-import { ContainerConfigModel, DataObjectModel, DataRequestModel, DatabaseResponseObjectModel, DatasetConfigModel, GraphConfigModel, TableConfigModel } from '../../model';
+import { 
+	ButtonConfigModel, 
+	ContainerConfigModel, 
+	DataObjectModel, 
+	DataRequestModel, 
+	DatabaseResponseObjectModel, 
+	DatasetConfigModel, 
+	GraphConfigModel, 
+	TableConfigModel 
+} from '../../model';
 import './data-display.scss';
 import { useState } from 'react';
+import FileSaver from 'file-saver';
 
 interface Props{
 	weatherData: DatabaseResponseObjectModel,
@@ -10,9 +20,19 @@ interface Props{
 }
 export const DataDisplay = ({weatherData, dataRequest}:Props) =>{
 	const [display, setDisplay] = useState('table');
-
-	if(Object.keys(weatherData).length === 0){return(<div><p>No Data</p></div>)} //this needs to be updated to show a stylized No Data message 
 	
+
+	if(Object.keys(weatherData).length === 0){
+		return(
+			<Container config={{title: 'Data Display'}}>
+				<div><p>No Data</p></div>
+			</Container>
+		)
+	}
+
+	const headers: Array<string> = weatherData.meta.fields.map(el => el.name);
+	const data: Array<DataObjectModel> = [];
+
 	const titleCase = (word:string): string =>{
 		return word.split('_').map(el => el.charAt(0).toUpperCase() + el.slice(1)).join(' ')
 	}
@@ -21,8 +41,7 @@ export const DataDisplay = ({weatherData, dataRequest}:Props) =>{
 		setDisplay(state)
 	}
 
-	const headers: Array<string> = weatherData.meta.fields.map(el => el.name);
-	const data: Array<DataObjectModel> = [];
+	
 	for(const row of weatherData.data){
 		for(const key of Object.keys(row)){
 			if(!headers.includes(key)){
@@ -38,26 +57,69 @@ export const DataDisplay = ({weatherData, dataRequest}:Props) =>{
 		data: data
 	}
 
+	const downloadData = ():void =>{
+		const blobData:Array<string> = []
+		blobData.push(Object.keys(data[0]).join(',')); //headers
+		for(const d of data){
+			blobData.push( Object.values(d).join(',')) //body
+		}
+
+		const blob = new Blob([blobData.join('\n')], {type:'text/csv'});
+
+		FileSaver.saveAs(blob, "download.csv");
+	}
+
+
 	const containerConfig: ContainerConfigModel = {
 		title: 'Data Display',
 		rightContainerConfig:{
-			icons:[
+			buttons:[
 				...data.length > 0 ? [{
-					icon: faFileArrowDown,
-					onClick: ()=>{console.log('clicked')},
-					tooltip: 'Download currrent data',
-				}]:[],
-				{
-					icon: faTableList,
-					onClick: () =>{changeDisplay('table')},
-					tooltip: 'Table view',
-				},
-				{
-					icon: faChartLine,
-					onClick: () =>{changeDisplay('graph')},
-					tooltip: 'Graph view',
-				}
-			]
+					type: 'button',
+					name: 'downloadData',
+					onClick: ()=>{downloadData()},
+					content:{
+						icons:[
+							{
+								icon: faFileArrowDown,
+								tooltip: 'Download currrent data',
+							}
+						]
+					}
+				} as ButtonConfigModel]:[],
+			],
+			buttonToggle:{
+				state: display,
+				buttons:[
+					{
+						type: 'button',
+						name: 'table',
+						onClick: () =>{changeDisplay('table')},
+						content:{
+							icons:[
+								{
+									icon: faTableList,
+									tooltip: 'Table view',
+								}
+							]
+						}
+					},
+					{
+						type: 'button',
+						name: 'graph',
+						onClick: () =>{changeDisplay('graph')},
+						content:{
+							icons:[
+								{
+									icon: faChartLine,
+									tooltip: 'Graph view',
+								}
+							]
+						}
+					},
+					
+				],
+			}
 		}
 	}
 
@@ -97,19 +159,18 @@ export const DataDisplay = ({weatherData, dataRequest}:Props) =>{
 		}
 	}
 
+	const renderedComponent: {[key:string]: any} = {
+		noData: <div><p>No Data</p></div>,
+		table: <Table config={tableConfig}/>,
+		graph: <Graph config={graphConfig}/>,
+	}
+
 	return(
 		<Container
 			config={containerConfig}
 		>
-			{
-				display === 'table' ?
-					<Table
-						config={tableConfig}
-					></Table>
-					:
-					<Graph
-						config={graphConfig}
-					></Graph>
+			{	
+				renderedComponent[display] ?? <></>
 			}
 			<div className="meta-container">
 				{

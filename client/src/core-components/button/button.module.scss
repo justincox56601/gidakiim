@@ -1,0 +1,22 @@
+@use 'src/_variables' as v;
+
+.button{
+	width: max-content;
+	height: max-content;
+	max-width: 150px;
+	max-height: 100px;
+	padding: 0.5rem 1rem;
+	border-radius: v.$button-corners;
+	background-color: transparent;
+	border: 1px solid v.$accent-color-1;
+	color: v.$primary-font-color;
+
+	&:hover{
+		background-color: v.$accent-color-1;
+		color: v.$white;
+
+		& > svg *{
+			color:v.$white;
+		}
+	}
+}

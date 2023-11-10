@@ -1,14 +1,30 @@
+@use 'src/_variables' as v;
+
 *{
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
+	font-family: Roboto;
+	color: v.$primary-font-color;
+	font-size: 1.1rem;
+
+}
+
+h1{
+	font-size: 1.3rem;
+}
+
+h2{
+	font-size: 1.2rem;
 }
 
 .App{
-	background-color: #F5F5F5;
+	background-color: v.$primary-background-color;
 	padding: 3rem;
+	min-height:100vh;
+	height: 100%;
 
-	& > *{
-		margin-bottom: 20px
+	&  > div {
+		margin-bottom: 1rem;
 	}
 }
