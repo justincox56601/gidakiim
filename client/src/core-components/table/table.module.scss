@@ -13,7 +13,8 @@ $cell-padding: 10px 5px;
 		padding: $cell-padding;
 	}
 
-	tr{		
+	tr{	
+			
 		&:nth-child(odd){
 			background-color: v.$accent-color-2;
 		}

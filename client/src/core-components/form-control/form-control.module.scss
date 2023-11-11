@@ -1,5 +1,11 @@
+@use 'src/_variables' as v;
+
 input[type=checkbox]{
-	margin-right:0.5rem
+	margin-right:0.5rem;
+
+	&:checked{
+		accent-color: v.$accent-color-1;
+	}
 }
 
 .control{
