@@ -18,7 +18,7 @@ module.exports = {
 							description: el.description
 						}
 					}),
-					dataCollectionStatement: 'This is a statement of where all the data was collected from.  Will need to be updated to show NOAA sources'
+					dataCollectionStatement: 'Data sources include METAR reporting stations, data from the NOAA Meteorological Assimilation Data Ingest System (MADIS), and the RTMA.'
 				},
 				data: data
 			}

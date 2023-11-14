@@ -4,7 +4,7 @@ import { DataRequestModel, DatabaseResponseObjectModel } from '../model';
 
 export class DatabaseService {
 	protected static _singleton: DatabaseService;
-	private readonly _baseURL: string = process.env.NODE_ENV === 'production' ? 'api/v1/weather' : 'http://localhost:3001/v1/weather';
+	private readonly _baseURL: string = process.env.NODE_ENV === 'production' ? 'api/v1/weather' : 'http://localhost:3001/api/v1/weather';
 	private _axios;
 
 	private constructor(){

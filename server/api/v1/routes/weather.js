@@ -4,8 +4,8 @@ const {
 	query,
 	validationResult
 } = require('express-validator');
-const knex = require('../../db/knex');
-const UtilityService = require('../../service/utilityService');
+const knex = require('../../../db/knex');
+const UtilityService = require('../../../service/utilityService');
 
 const router = Router();
 
